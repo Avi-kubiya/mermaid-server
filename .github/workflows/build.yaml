@@ -16,8 +16,8 @@ jobs:
       - name: Set env
         run: echo RELEASE_VERSION=${GITHUB_REF:10} >> $GITHUB_ENV
       - name: Build
-        run: docker build -t tomwright/mermaid-server:latest -t tomwright/mermaid-server:${{ env.RELEASE_VERSION }} -f Dockerfile .
+        run: docker build -t  ghcr.io/avi-kubiya/mermaidserver:latest -t  ghcr.io/avi-kubiya/mermaidserver:${{ env.RELEASE_VERSION }} -f Dockerfile .
       - name: Login
-        run: echo ${{ secrets.DOCKER_PASS }} | docker login -u${{ secrets.DOCKER_USER }} --password-stdin
+        run: echo ${{ secrets.GHCR_GITHUB_TOKEN }} | docker login ghcr.io -u avi.rosenberg@kubiya.ai --password-stdin
       - name: Push
-        run: docker push tomwright/mermaid-server:latest && docker push tomwright/mermaid-server:${{ env.RELEASE_VERSION }}
+        run: docker push ghcr.io/avi-kubiya/mermaidserver:latest && docker push  ghcr.io/avi-kubiya/mermaidserver:${{ env.RELEASE_VERSION }}
