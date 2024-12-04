@@ -96,6 +96,7 @@ func (c cachingGenerator) generate(diagram *Diagram) error {
 	args := []string{
 		"-i", inPath,
 		"-o", outPath,
+		"--scale", diagram.scale,
 	}
 	if c.puppeteerConfigPath != "" {
 		args = append(args, "-p", c.puppeteerConfigPath)
