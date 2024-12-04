@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -119,6 +120,7 @@ func getDiagramFromPOST(r *http.Request, imgType string) (*Diagram, error) {
 }
 
 const URLParamImageType = "type"
+const URLParamImageScale = "scale"
 
 // generateHTTPHandler returns a HTTP handler used to generate a diagram.
 func generateHTTPHandler(generator Generator) http.Handler {
@@ -153,6 +155,19 @@ func generateHTTPHandler(generator Generator) http.Handler {
 		if diagram == nil {
 			writeErr(rw, fmt.Errorf("could not create diagram"), http.StatusInternalServerError)
 			return
+		}
+
+		diagram.scale = "10"
+		scaleStr := r.URL.Query().Get(URLParamImageScale)
+		if scaleStr != "" {
+			scale, err := strconv.Atoi(scaleStr) // Convert string to integer
+
+			if err != nil || scale < 1 || scale > 100 {
+				http.Error(rw, "Invalid scale parameter. It must be a number between 1 and 100.", http.StatusBadRequest)
+				return
+			}
+
+			diagram.scale = scaleStr
 		}
 
 		// Generate the diagram

@@ -33,6 +33,8 @@ type Diagram struct {
 	lastTouched time.Time
 	// the type of image to generate svg or png
 	imgType string
+	//the scale of the image default 10
+	scale string
 }
 
 // Touch updates the last touched time of the diagram.
