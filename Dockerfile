@@ -16,6 +16,10 @@ WORKDIR /root
 
 # copy the mermaidcli node package into the container and install
 COPY ./mermaidcli/* ./
+# Add these lines before npm install
+RUN apt-get update && apt-get install -y chromium
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 RUN npm install && npm cache clean --force;
 
