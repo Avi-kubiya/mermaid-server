@@ -96,11 +96,13 @@ func (c cachingGenerator) generate(diagram *Diagram) error {
 	args := []string{
 		"-i", inPath,
 		"-o", outPath,
+		"--scale", diagram.scale,
 	}
 	if c.puppeteerConfigPath != "" {
 		args = append(args, "-p", c.puppeteerConfigPath)
 	}
-
+	fmt.Println("2")
+	fmt.Println(c.mermaidCLIPath, args)
 	cmd := exec.Command(c.mermaidCLIPath, args...)
 	var stdOut bytes.Buffer
 	var stdErr bytes.Buffer
